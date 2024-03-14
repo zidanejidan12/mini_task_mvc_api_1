@@ -1,11 +1,15 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using MyWebFormApp.BLL;
 using MyWebFormApp.BLL.Interfaces;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
-//menambahkan modul mvc
+
 builder.Services.AddControllersWithViews();
 
-//register session
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(10);
@@ -13,7 +17,9 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-//register DI
+// Register HttpClient
+builder.Services.AddHttpClient();
+
 builder.Services.AddScoped<ICategoryBLL, CategoryBLL>();
 builder.Services.AddScoped<IArticleBLL, ArticleBLL>();
 builder.Services.AddScoped<IUserBLL, UserBLL>();

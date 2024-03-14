@@ -8,14 +8,16 @@ namespace SampleMVC.Controllers;
 
 public class CategoriesController : Controller
 {
-    private readonly ICategoryBLL _categoryBLL;
     private UserDTO user = null;
-    public CategoriesController(ICategoryBLL categoryBLL)
+    private readonly ICategoryBLL _categoryBLL;
+    private readonly HttpClient _httpClient;
+
+    public CategoriesController(ICategoryBLL categoryBLL, HttpClient httpClient)
     {
         _categoryBLL = categoryBLL;
-
-
-    }
+        _httpClient = httpClient;
+        _httpClient.BaseAddress = new Uri("http://localhost:5094/"); // Update with your API base URL
+    }   
 
     public IActionResult Index(int pageNumber = 1, int pageSize = 5, string search = "", string act = "")
     {
@@ -230,5 +232,23 @@ public class CategoriesController : Controller
 
         return View();
     }
+    public async Task<IActionResult> CategoriesFromApi()
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync("api/categories");
+            response.EnsureSuccessStatusCode(); // Throws exception if response is not successful
 
+            var categoriesJson = await response.Content.ReadAsStringAsync();
+            var categories = JsonSerializer.Deserialize<List<CategoryDTO>>(categoriesJson);
+
+            return View(categories);
+        }
+        catch (HttpRequestException ex)
+        {
+            // Log or handle the exception
+            TempData["message"] = $"<div class='alert alert-danger'><strong>Error!</strong>Failed to retrieve categories: {ex.Message}</div>";
+            return RedirectToAction("Index");
+        }
+    }
 }

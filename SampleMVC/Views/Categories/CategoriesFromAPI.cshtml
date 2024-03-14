@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Categories from API";
+}
+
+<h1>Categories from API</h1>
+
+<table id="categories-table" class="table">
+    <thead>
+        <tr>
+            <th>Category ID</th>
+            <th>Category Name</th>
+            <!-- Add more table headers if needed -->
+        </tr>
+    </thead>
+    <tbody id="categories-container">
+        <!-- Categories will be displayed here -->
+    </tbody>
+</table>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: "/Categories/GetAllCategories",
+                type: "GET",
+                success: function (data) {
+                    var categoriesContainer = $("#categories-container");
+                    $.each(data, function (index, category) {
+                        var row = "<tr>" +
+                            "<td>" + category.categoryID + "</td>" +
+                            "<td>" + category.categoryName + "</td>" +
+                            // Add more <td> elements if needed for additional category properties
+                            "</tr>";
+                        categoriesContainer.append(row);
+                    });
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+    </script>
+}

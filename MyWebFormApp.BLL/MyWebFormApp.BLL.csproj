@@ -3,8 +3,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MyWebFormApp.BO\MyWebFormApp.BO.csproj"/>
-    <ProjectReference Include="..\MyWebFormApp.DAL\MyWebFormApp.DAL.csproj"/>
+    <ProjectReference Include="..\MyWebFormApp.BO\MyWebFormApp.BO.csproj" />
+    <ProjectReference Include="..\MyWebFormApp.DAL\MyWebFormApp.DAL.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.ComponentModel.DataAnnotations">
@@ -12,6 +12,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.DataAnnotations" Version="2.2.0"/>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.DataAnnotations" Version="2.2.0" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
 </Project>
